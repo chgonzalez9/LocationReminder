@@ -8,13 +8,16 @@ import com.chgonzalez.locationreminder.base.BaseFragment
 import com.chgonzalez.locationreminder.databinding.FragmentSelectLocationBinding
 import com.chgonzalez.locationreminder.locationreminders.savereminder.SaveReminderViewModel
 import com.chgonzalez.locationreminder.utils.setDisplayHomeAsUpEnabled
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
 import org.koin.android.ext.android.inject
 
 
-class SelectLocationFragment : BaseFragment() {
+class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
     //Use Koin to get the view model of the SaveReminder
     override val _viewModel: SaveReminderViewModel by inject()
+    private lateinit var map: GoogleMap
     private lateinit var binding: FragmentSelectLocationBinding
 
     override fun onCreateView(
@@ -53,20 +56,27 @@ class SelectLocationFragment : BaseFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        // TODO: Change the map type based on the user's selection.
         R.id.normal_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_NORMAL
             true
         }
         R.id.hybrid_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_HYBRID
             true
         }
         R.id.satellite_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_SATELLITE
             true
         }
         R.id.terrain_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_TERRAIN
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onMapReady(p0: GoogleMap) {
+        TODO("Not yet implemented")
     }
 
 
