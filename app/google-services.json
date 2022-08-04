@@ -1,0 +1,100 @@
+{
+  "project_info": {
+    "project_number": "174762399698",
+    "project_id": "locationreminder-9fcc8",
+    "storage_bucket": "locationreminder-9fcc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174762399698:android:2a02fbde2bcdf735375a0b",
+        "android_client_info": {
+          "package_name": "com.chgonzalez.locationreminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174762399698-7nekoi1522b8tkd6msitvqspl3cvs3hb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chgonzalez.locationreminder",
+            "certificate_hash": "e13f775711e306c5d089e067f832be636343319a"
+          }
+        },
+        {
+          "client_id": "174762399698-cf37rcqibbdob2o254u08egkfhg211vd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chgonzalez.locationreminder",
+            "certificate_hash": "57dd24934f43aae1aba455df1950a42dda486af7"
+          }
+        },
+        {
+          "client_id": "174762399698-iuqib2irioqsbdme5dc1d2k4bhhismu0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBeupz-RYj3Be_e6kDnkyNG5k_0oZngDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174762399698-iuqib2irioqsbdme5dc1d2k4bhhismu0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174762399698:android:8309b25cc4325527375a0b",
+        "android_client_info": {
+          "package_name": "com.udacity.project4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174762399698-1sjnc0r30ajfo9q2ff2b7p8dv8mv91kr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.udacity.project4",
+            "certificate_hash": "e13f775711e306c5d089e067f832be636343319a"
+          }
+        },
+        {
+          "client_id": "174762399698-b01bfte9srkrfsogp3lj9708huqolka0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.udacity.project4",
+            "certificate_hash": "57dd24934f43aae1aba455df1950a42dda486af7"
+          }
+        },
+        {
+          "client_id": "174762399698-iuqib2irioqsbdme5dc1d2k4bhhismu0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBeupz-RYj3Be_e6kDnkyNG5k_0oZngDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174762399698-iuqib2irioqsbdme5dc1d2k4bhhismu0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
