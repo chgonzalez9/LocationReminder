@@ -12,9 +12,4 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <style name="LoginTheme" parent="FirebaseUI">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorBackground">@color/cardview_dark_background</item>
-    </style>
-
 </resources>
