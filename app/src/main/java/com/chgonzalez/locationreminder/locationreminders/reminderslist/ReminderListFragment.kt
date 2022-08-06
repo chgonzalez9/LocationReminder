@@ -3,6 +3,7 @@ package com.chgonzalez.locationreminder.locationreminders.reminderslist
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.chgonzalez.locationreminder.R
 import com.chgonzalez.locationreminder.base.BaseFragment
 import com.chgonzalez.locationreminder.base.NavigationCommand
@@ -10,6 +11,9 @@ import com.chgonzalez.locationreminder.databinding.FragmentRemindersBinding
 import com.chgonzalez.locationreminder.utils.setDisplayHomeAsUpEnabled
 import com.chgonzalez.locationreminder.utils.setTitle
 import com.chgonzalez.locationreminder.utils.setup
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReminderListFragment : BaseFragment() {
@@ -45,6 +49,8 @@ class ReminderListFragment : BaseFragment() {
             navigateToAddReminder()
         }
 
+        observeAuthenticationState()
+
     }
 
 
@@ -54,12 +60,12 @@ class ReminderListFragment : BaseFragment() {
         _viewModel.loadReminders()
     }
 
-    //private fun observeAuthenticationState() {
+    private fun observeAuthenticationState() {
 
-        //if (loginViewModel.authenticationState.value == LoginViewModel.AuthenticationState.UNAUTHENTICATED) {
-
-        //}
-    //}
+        if(Firebase.auth.currentUser == null) {
+            findNavController().navigate(ReminderListFragmentDirections.toLogin())
+        }
+    }
 
     private fun navigateToAddReminder() {
         //use the navigationCommand live data to navigate between the fragments
@@ -81,7 +87,11 @@ class ReminderListFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.logout -> {
-//                TODO: add the logout implementation
+                AuthUI.getInstance()
+                    .signOut(requireContext())
+                    .addOnCompleteListener {
+                        findNavController().navigate(ReminderListFragmentDirections.toLogin())
+                    }
             }
         }
         return super.onOptionsItemSelected(item)
