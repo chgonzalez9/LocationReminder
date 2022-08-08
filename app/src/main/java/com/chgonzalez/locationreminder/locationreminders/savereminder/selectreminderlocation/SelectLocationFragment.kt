@@ -1,20 +1,19 @@
 package com.chgonzalez.locationreminder.locationreminders.savereminder.selectreminderlocation
 
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.findNavController
 import com.chgonzalez.locationreminder.R
 import com.chgonzalez.locationreminder.base.BaseFragment
 import com.chgonzalez.locationreminder.databinding.FragmentSelectLocationBinding
 import com.chgonzalez.locationreminder.locationreminders.savereminder.SaveReminderViewModel
 import com.chgonzalez.locationreminder.utils.setDisplayHomeAsUpEnabled
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.PointOfInterest
+import com.google.android.gms.maps.model.MapStyleOptions
 import org.koin.android.ext.android.inject
 
 
@@ -23,8 +22,8 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     //Use Koin to get the view model of the SaveReminder
     override val _viewModel: SaveReminderViewModel by inject()
     private lateinit var map: GoogleMap
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var binding: FragmentSelectLocationBinding
+    private val TAG = SelectLocationFragment::class.java.simpleName
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -53,6 +52,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        setMapStyle(map)
     }
 
     private fun onLocationSelected() {
@@ -85,5 +85,18 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         else -> super.onOptionsItemSelected(item)
     }
 
-
+    private fun setMapStyle(map: GoogleMap) {
+        try {
+            val success = map.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    requireContext(), R.raw.map_style
+                )
+            )
+            if (!success) {
+                Log.e( TAG,"Style parsing failed.")
+            }
+        } catch (e: Resources.NotFoundException) {
+            Log.e( TAG,"Can't find style. Error: ", e)
+        }
+    }
 }
