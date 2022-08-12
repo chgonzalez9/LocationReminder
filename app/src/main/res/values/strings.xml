@@ -39,6 +39,8 @@
     <string name="geofence_entered">Geofence entered.</string>
     <string name="geofence_over">You have found the treasure! Congratulations!</string>
 
+    <string name="current_location_title">Current Location</string>
+
     <!-- Error strings -->
     <string name="geofence_unknown_error">Unknown error: the Geofence service is not available now.</string>
     <string name="geofence_not_available">Geofence service is not available now. Go to Settings>Location>Mode and choose High accuracy.</string>
