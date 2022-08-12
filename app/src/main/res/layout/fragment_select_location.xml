@@ -14,7 +14,7 @@
         android:id="@+id/activity_maps"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!--TODO: Add the map fragment for the user to select the location-->
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_normal"
             android:fadeVisible="@{!viewModel.showLoading.booleanValue()}"
-            android:src="@drawable/ic_save"
+            android:src="@drawable/ic_add"
             app:fabSize="normal"
             app:layout_anchorGravity="bottom|right|end"
             app:layout_constraintBottom_toBottomOf="parent"

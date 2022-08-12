@@ -69,8 +69,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         setMapStyle(_map)
 
         enableMyLocation()
-        askPermissions()
-        snackbar()
 
         setMapLongClick(_map)
         setPoiClick(_map)
@@ -132,7 +130,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             )
                 .show()
         })
-
     }
 
 //    Maps Implementation
@@ -199,6 +196,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private fun setMapLongClick(map: GoogleMap) {
 
         map.setOnMapLongClickListener { latLng ->
+            _marker?.remove()
             _marker = _map.addMarker(
                 MarkerOptions()
                     .position(latLng)
@@ -209,6 +207,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private fun setPoiClick(map: GoogleMap) {
 
         map.setOnPoiClickListener { poi ->
+            _marker?.remove()
             _marker = _map.addMarker(
                 MarkerOptions()
                     .position(poi.latLng)
