@@ -15,6 +15,8 @@
         <entry key="..\:/Datos/Programacion/Curso/LocationReminder/app/src/main/res/layout/it_reminder.xml" value="0.18085106382978725" />
         <entry key="..\:/Datos/Programacion/Curso/LocationReminder/app/src/main/res/menu/main_menu.xml" value="0.371875" />
         <entry key="..\:/Datos/Programacion/Curso/LocationReminder/app/src/main/res/menu/map_options.xml" value="0.33796296296296297" />
+        <entry key="app/src/main/res/layout/fragment_save_reminder.xml" value="0.2776268115942029" />
+        <entry key="app/src/main/res/layout/fragment_select_location.xml" value="0.2776268115942029" />
       </map>
     </option>
   </component>
