@@ -33,7 +33,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var _binding: FragmentSelectLocationBinding
     private lateinit var _map: GoogleMap
     private lateinit var _requestPermissionLauncher: ActivityResultLauncher<Array<String>>
-    private val _locationClient: FusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(requireActivity()) }
+    private val _locationClient: FusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(requireContext()) }
     private var _marker: Marker? = null
 
     private val TAG = SelectLocationFragment::class.java.simpleName

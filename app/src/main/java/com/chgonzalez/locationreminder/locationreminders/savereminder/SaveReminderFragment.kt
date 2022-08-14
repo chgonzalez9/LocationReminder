@@ -45,7 +45,6 @@ class SaveReminderFragment : BaseFragment() {
     private lateinit var _requestLocationSettings: ActivityResultLauncher<IntentSenderRequest>
     private val _geofencePendingIntent: PendingIntent by lazy {
         val intent = Intent(requireActivity(), GeofenceBroadcastReceiver::class.java)
-//        intent.action = ACTION_GEOFENCE_EVENT
         PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
@@ -84,6 +83,8 @@ class SaveReminderFragment : BaseFragment() {
         askPermissions()
         requestPermissionsResult()
 
+        snackBarAction()
+
         locationTitle()
 
         _binding.saveReminder.setOnClickListener {
@@ -105,11 +106,10 @@ class SaveReminderFragment : BaseFragment() {
         val locationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_LOW_POWER
         }
-        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
 
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
         val settingsClient = LocationServices.getSettingsClient(requireActivity())
-        val locationSettingsResponseTask =
-            settingsClient.checkLocationSettings(builder.build())
+        val locationSettingsResponseTask = settingsClient.checkLocationSettings(builder.build())
 
         locationSettingsResponseTask.addOnFailureListener { exception ->
             if (exception is ResolvableApiException && resolve){
@@ -155,7 +155,6 @@ class SaveReminderFragment : BaseFragment() {
 
     @TargetApi(29 )
     private fun requestForegroundAndBackgroundLocationPermissions() {
-        if (locationPermissionApproved()) return
         var permissionsArray = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
         if (runningQOrLater) {
             permissionsArray += Manifest.permission.ACCESS_BACKGROUND_LOCATION
@@ -196,6 +195,13 @@ class SaveReminderFragment : BaseFragment() {
                 Log.e("SaveReminderFragment", exception.localizedMessage!!)
             }
         }
+    }
+
+    private fun requestLocationPermissions() {
+
+        _requestPermissionLauncher.launch(
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+        )
     }
 
     //Geofence
@@ -253,15 +259,37 @@ class SaveReminderFragment : BaseFragment() {
         })
     }
 
+    //Snackbar
+    private fun snackBarAction() {
+
+        _viewModel.showSnackBarInt.observe(viewLifecycleOwner, Observer {
+            Snackbar.make(
+                _binding.fragmentSaveReminder,
+                getString(it!!),
+                Snackbar.LENGTH_LONG
+            )
+                .show()
+        })
+
+        _viewModel.showSnackBar.observe(viewLifecycleOwner, Observer{
+            val snackbar = Snackbar.make(
+                _binding.fragmentSaveReminder,
+                it,
+                Snackbar.LENGTH_INDEFINITE
+            )
+
+            snackbar.setAction("enable", View.OnClickListener {
+                requestLocationPermissions()
+            })
+
+            snackbar.show()
+        })
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         //make sure to clear the view model after destroy, as it's a single view model.
         _viewModel.onClear()
-    }
-
-    companion object {
-        internal const val ACTION_GEOFENCE_EVENT =
-            "SaveReminderFragment.locationally.action.ACTION_GEOFENCE_EVENT"
     }
 
 }
