@@ -40,6 +40,7 @@
     <string name="geofence_over">You have found the treasure! Congratulations!</string>
 
     <string name="current_location_title">Current Location</string>
+    <string name="custom_location_title">Custom Location</string>
 
     <!-- Error strings -->
     <string name="geofence_unknown_error">Unknown error: the Geofence service is not available now.</string>
