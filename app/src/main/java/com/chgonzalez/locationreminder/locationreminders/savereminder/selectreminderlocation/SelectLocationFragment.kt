@@ -56,7 +56,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         snackbar()
         askPermissions()
 
-        onLocationSelected()
+        saveLocationAction()
 
         return _binding.root
     }
@@ -132,15 +132,25 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         })
     }
 
-//    Maps Implementation
+//    Maps Utils
     private fun onLocationSelected() {
 
+        _viewModel.reminderSelectedLocationStr.value = _marker?.title
+        _viewModel.latitude.value = _marker?.position?.latitude
+        _viewModel.longitude.value = _marker?.position?.longitude
+        _viewModel.navigationCommand.value =
+            NavigationCommand.To(SelectLocationFragmentDirections.actionSelectLocationFragmentToSaveReminderFragment())
+    }
+
+    private fun saveLocationAction() {
+
         _binding.mapButton.setOnClickListener {
-            _viewModel.reminderSelectedLocationStr.value = _marker?.title
-            _viewModel.latitude.value = _marker?.position?.latitude
-            _viewModel.longitude.value = _marker?.position?.longitude
-            _viewModel.navigationCommand.value =
-                NavigationCommand.To(SelectLocationFragmentDirections.actionSelectLocationFragmentToSaveReminderFragment())
+
+            if (_marker == null) {
+                _viewModel.showSnackBar.value = "Please select a location on the map"
+            }else {
+                onLocationSelected()
+            }
         }
     }
 
@@ -176,7 +186,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         }
         else -> super.onOptionsItemSelected(item)
     }
-
+    //    Maps Implementation
     private fun setMapStyle(map: GoogleMap) {
 
         try {
@@ -200,6 +210,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             _marker = _map.addMarker(
                 MarkerOptions()
                     .position(latLng)
+                    .title(getString(R.string.custom_location_title))
             )
         }
     }
@@ -213,6 +224,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                     .position(poi.latLng)
                     .title(poi.name)
             )
+            _marker?.showInfoWindow()
         }
     }
 
