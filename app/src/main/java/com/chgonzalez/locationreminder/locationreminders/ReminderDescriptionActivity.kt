@@ -3,6 +3,7 @@ package com.chgonzalez.locationreminder.locationreminders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.chgonzalez.locationreminder.R
@@ -24,13 +25,23 @@ class ReminderDescriptionActivity : AppCompatActivity() {
         }
     }
 
-    private lateinit var binding: ActivityReminderDescriptionBinding
+    private lateinit var _binding: ActivityReminderDescriptionBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(
+        _binding = DataBindingUtil.setContentView(
             this,
             R.layout.activity_reminder_description
         )
-//        TODO: Add the implementation of the reminder details
+
+        val reminderItem = intent.getSerializableExtra(EXTRA_ReminderDataItem) as ReminderDataItem?
+
+        if(reminderItem == null){
+            Toast.makeText(this, "Unable to load reminder data", Toast.LENGTH_SHORT)
+                .show()
+        }
+
+        reminderItem.let {
+            _binding.reminderDataItem = it
+        }
     }
 }
