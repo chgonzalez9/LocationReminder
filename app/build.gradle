@@ -85,9 +85,9 @@ dependencies {
     testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
     testImplementation "io.insert-koin:koin-test-jvm:$koin_version"
 
-    debugImplementation "io.insert-koin:koin-test:$koin_version"
-    debugImplementation "io.insert-koin:koin-test-junit4:$koin_version"
-    debugImplementation "io.insert-koin:koin-test-jvm:$koin_version"
+//    androidTestImplementation "io.insert-koin:koin-test:$koin_version"
+    androidTestImplementation "io.insert-koin:koin-test-junit4:$koin_version"
+    androidTestImplementation "io.insert-koin:koin-test-jvm:$koin_version"
 
     // Dependencies for local unit tests
     testImplementation 'junit:junit:4.13.2'
