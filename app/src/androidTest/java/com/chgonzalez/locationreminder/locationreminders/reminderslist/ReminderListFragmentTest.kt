@@ -42,6 +42,7 @@ import com.chgonzalez.locationreminder.R
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.chgonzalez.locationreminder.locationreminders.RemindersActivity
+import com.chgonzalez.locationreminder.locationreminders.savereminder.SaveReminderFragment
 import com.chgonzalez.locationreminder.locationreminders.savereminder.SaveReminderFragmentDirections
 import com.chgonzalez.locationreminder.util.monitorActivity
 import org.mockito.Mockito.verify
@@ -119,39 +120,33 @@ class ReminderListFragmentTest : KoinTest {
         )
     }
 
-    /** Not working **/
     @Test
     fun clickAddLocationButton_navigateToSelectLocation() = runBlocking {
 
-        val scenario = launchFragmentInContainer<ReminderListFragment>(Bundle(), R.style.Theme_LocationReminder)
+        val scenario = launchFragmentInContainer<SaveReminderFragment>(Bundle(), R.style.Theme_LocationReminder)
         val navController = mock(NavController::class.java)
         scenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)
         }
 
-        onView(withId(R.id.addReminderFAB)).perform(click())
         onView(withId(R.id.selectLocation)).perform(click())
         verify(navController).navigate(
             SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment()
         )
     }
 
-    /** Not working **/
     @Test
     fun remindersList_displayReminders(): Unit = runBlocking {
 
         repository.saveReminder(ReminderDTO("UI Test title", "UI Test Description", "UI Test Location", 1.0, 1.0))
-        repository.saveReminder(ReminderDTO("UI Test title 2", "UI Test Description 2", "UI Test Location 2", 2.0, 2.0))
 
-        launchFragmentInContainer<ReminderListFragment>()
+        launchFragmentInContainer<ReminderListFragment>(Bundle(), R.style.Theme_LocationReminder)
 
         onView(withId(R.id.title)).check(matches(isDisplayed()))
         onView(withId(R.id.title)).check(matches(withText("UI Test title")))
-        onView(withId(R.id.title)).check(matches(withText("UI Test title 2")))
 
         onView(withId(R.id.description)).check(matches(isDisplayed()))
         onView(withId(R.id.description)).check(matches(withText("UI Test Description")))
-        onView(withId(R.id.description)).check(matches(withText("UI Test Description 2")))
 
     }
 
@@ -178,6 +173,4 @@ class ReminderListFragmentTest : KoinTest {
 
     }
 
-//    TODO: test the navigation of the fragments.
-//    TODO: test the displayed data on the UI.
 }

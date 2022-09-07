@@ -51,4 +51,5 @@
         Unknown error: the Geofence service is not available now
     </string>
     <string name="determine_location_error">Unable to determine location.</string>
+    <string name="add_reminder_content_description">Add reminder button</string>
 </resources>
