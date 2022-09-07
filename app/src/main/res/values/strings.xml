@@ -36,7 +36,6 @@
     <!--    Geofence Status Strings-->
     <string name="geofences_removed">Geofences removed.</string>
     <string name="geofence_entered">Geofence entered.</string>
-    <string name="geofence_over">You have found the treasure! Congratulations!</string>
 
     <string name="current_location_title">Current Location</string>
     <string name="custom_location_title">Custom Location</string>

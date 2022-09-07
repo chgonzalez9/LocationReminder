@@ -79,7 +79,7 @@ class RemindersLocalRepositoryTest {
 
         //Then
         result as Result.Error
-        assertThat(result.message, `is`("Reminder not found"))
+        assertThat(result.message, `is`("Reminder not found!"))
     }
 
 }

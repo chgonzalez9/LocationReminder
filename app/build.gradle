@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.chgonzalez.locationreminder"
@@ -85,7 +85,7 @@ dependencies {
     testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
     testImplementation "io.insert-koin:koin-test-jvm:$koin_version"
 
-//    androidTestImplementation "io.insert-koin:koin-test:$koin_version"
+    androidTestImplementation "io.insert-koin:koin-test:$koin_version"
     androidTestImplementation "io.insert-koin:koin-test-junit4:$koin_version"
     androidTestImplementation "io.insert-koin:koin-test-jvm:$koin_version"
 
@@ -123,7 +123,6 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexMakerVersion"
-    androidTestImplementation('org.koin:koin-test:2.0.1') { exclude group: 'org.mockito' }
 
     //Maps & Geofencing
     implementation 'com.google.android.gms:play-services-maps:18.1.0'

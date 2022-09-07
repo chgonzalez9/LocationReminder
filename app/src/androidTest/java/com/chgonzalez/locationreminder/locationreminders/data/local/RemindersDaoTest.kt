@@ -12,6 +12,7 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi;
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
@@ -43,7 +44,7 @@ class RemindersDaoTest {
     fun closeDb() = database.close()
 
     @Test
-    fun insertReminderAndGetById() = runBlockingTest {
+    fun insertReminderAndGetById() = runBlocking {
 
         //Given - insert Reminder
         val reminder = ReminderDTO("Test title", "Test description", "Test location", 0.0, 0.0)
