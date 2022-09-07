@@ -44,6 +44,8 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.chgonzalez.locationreminder.locationreminders.RemindersActivity
 import com.chgonzalez.locationreminder.locationreminders.savereminder.SaveReminderFragment
 import com.chgonzalez.locationreminder.locationreminders.savereminder.SaveReminderFragmentDirections
+import com.chgonzalez.locationreminder.locationreminders.savereminder.selectreminderlocation.SelectLocationFragment
+import com.chgonzalez.locationreminder.locationreminders.savereminder.selectreminderlocation.SelectLocationFragmentDirections
 import com.chgonzalez.locationreminder.util.monitorActivity
 import org.mockito.Mockito.verify
 
@@ -134,6 +136,22 @@ class ReminderListFragmentTest : KoinTest {
             SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment()
         )
     }
+
+    @Test
+    fun clickSaveLocation_navigateToSaveReminder() = runBlocking {
+
+        val scenario = launchFragmentInContainer<SelectLocationFragment>(Bundle(), R.style.Theme_LocationReminder)
+        val navController = mock(NavController::class.java)
+        scenario.onFragment {
+            Navigation.setViewNavController(it.view!!, navController)
+        }
+
+        onView(withId(R.id.map_button)).perform(click())
+        verify(navController).navigate(
+            SelectLocationFragmentDirections.actionSelectLocationFragmentToSaveReminderFragment()
+        )
+    }
+
 
     @Test
     fun remindersList_displayReminders(): Unit = runBlocking {
