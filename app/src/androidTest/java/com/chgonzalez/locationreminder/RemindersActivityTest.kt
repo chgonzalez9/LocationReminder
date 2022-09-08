@@ -10,8 +10,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
@@ -46,7 +45,7 @@ import org.koin.test.get
 @LargeTest
 //END TO END test to black box test the app
 class RemindersActivityTest :
-    AutoCloseKoinTest() {// Extended Koin Test - embed autoclose @after method to close Koin after every test
+    KoinTest {// Extended Koin Test - embed autoclose @after method to close Koin after every test
 
     private lateinit var repository: ReminderDataSource
     private lateinit var appContext: Application
@@ -58,7 +57,10 @@ class RemindersActivityTest :
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    var runtimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+    val activityRule = ActivityTestRule(RemindersActivity::class.java)
+
+    @get:Rule
+    var runtimePermissionRule: GrantPermissionRule? = GrantPermissionRule.grant(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_BACKGROUND_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -81,6 +83,11 @@ class RemindersActivityTest :
         unregister(EspressoIdlingResource.countingIdlingResource)
         unregister(dataBindingIdlingResource)
     }
+
+//    @After
+//    fun deleteAllReminders() = runBlocking {
+//        repository.deleteAllReminders()
+//    }
 
     /**
      * As we use Koin as a Service Locator Library to develop our code, we'll also use Koin to test our code.
@@ -120,64 +127,49 @@ class RemindersActivityTest :
     }
 
     @Test
-    fun createNewReminder_successful() = runBlocking {
+    fun createNewReminder() = runBlocking {
 
         val title = "Test title"
         val description = "Test description"
 
-        // Start up Tasks screen
+        // Start up Reminders screen
         val activityScenario = ActivityScenario.launch(RemindersActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
         //When
+        Thread.sleep(500)
         onView(withId(R.id.addReminderFAB)).perform(click())
-        Thread.sleep(1000)
-        onView(withId(R.id.reminderTitle)).perform(typeText(title))
-        Espresso.closeSoftKeyboard()
+
         Thread.sleep(500)
         onView(withId(R.id.reminderDescription)).perform(typeText(description))
         Espresso.closeSoftKeyboard()
         Thread.sleep(500)
+
         onView(withId(R.id.selectLocation)).perform(click())
         //Wait for the map to load
         Thread.sleep(1500)
         onView(withId(R.id.map)).perform(click())
         Thread.sleep(1000)
         onView(withId(R.id.map_button)).perform(click())
+
+        Thread.sleep(500)
+        onView(withId(R.id.saveReminder)).perform(click())
+
+        onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText(R.string.err_enter_title)))
+
+        Thread.sleep(1000)
+        onView(withId(R.id.reminderTitle)).perform(typeText(title))
+        Espresso.closeSoftKeyboard()
+
+        Thread.sleep(500)
         onView(withId(R.id.saveReminder)).perform(click())
 
         //Result
-        assertThat((repository.getReminders() as Result.Success).data.size, `is`(1))
+//        assertThat((repository.getReminders() as Result.Success).data.size, `is`(1))
+//        onView(withId(R.id.title)).check(matches(isDisplayed()))
 
+        Thread.sleep(500)
         activityScenario.close()
     }
-
-//    @Test
-//    fun createNewReminder_showToast() = runBlocking {
-//
-//        val title = "New Reminder Toast title"
-//        val description = "New Reminder Toast description"
-//
-//        // Start up Tasks screen
-//        val activityScenario = ActivityScenario.launch(RemindersActivity::class.java)
-//        dataBindingIdlingResource.monitorActivity(activityScenario)
-//
-//        //When
-//        onView(withId(R.id.addReminderFAB)).perform(click())
-//        onView(withId(R.id.reminderTitle)).perform(replaceText(title))
-//        onView(withId(R.id.reminderDescription)).perform(replaceText(description))
-//        onView(withId(R.id.selectLocation)).perform(click())
-//        //Wait for the map to load
-//        Thread.sleep(1500)
-//        onView(withId(R.id.map)).perform(longClick())
-//        onView(withId(R.id.map_button)).perform(click())
-//        onView(withId(R.id.saveReminder)).perform(click())
-//
-//        //Then
-//        onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText(R.string.geofence_entered)))
-//        onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText(R.string.reminder_saved)))
-//
-//        activityScenario.close()
-//    }
 }
 
