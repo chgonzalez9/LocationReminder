@@ -3,14 +3,11 @@ package com.chgonzalez.locationreminder.reminderslist
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.chgonzalez.locationreminder.MainCoroutineRule
 import com.chgonzalez.locationreminder.data.FakeDataSource
 import com.chgonzalez.locationreminder.getOrAwaitValue
 import com.chgonzalez.locationreminder.locationreminders.reminderslist.RemindersListViewModel
-import com.chgonzalez.locationreminder.locationreminders.savereminder.SaveReminderViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule

@@ -13,11 +13,9 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.chgonzalez.locationreminder.locationreminders.RemindersActivity
 import com.chgonzalez.locationreminder.locationreminders.data.ReminderDataSource
-import com.chgonzalez.locationreminder.locationreminders.data.dto.Result
 import com.chgonzalez.locationreminder.locationreminders.data.local.LocalDB
 import com.chgonzalez.locationreminder.locationreminders.data.local.RemindersLocalRepository
 import com.chgonzalez.locationreminder.locationreminders.reminderslist.RemindersListViewModel
@@ -26,8 +24,6 @@ import com.chgonzalez.locationreminder.util.DataBindingIdlingResource
 import com.chgonzalez.locationreminder.util.monitorActivity
 import com.chgonzalez.locationreminder.utils.EspressoIdlingResource
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -37,7 +33,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
 import org.koin.test.KoinTest
 import org.koin.test.get
 
@@ -56,8 +51,6 @@ class RemindersActivityTest :
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @get:Rule
-    val activityRule = ActivityTestRule(RemindersActivity::class.java)
 
     @get:Rule
     var runtimePermissionRule: GrantPermissionRule? = GrantPermissionRule.grant(
@@ -84,10 +77,10 @@ class RemindersActivityTest :
         unregister(dataBindingIdlingResource)
     }
 
-//    @After
-//    fun deleteAllReminders() = runBlocking {
-//        repository.deleteAllReminders()
-//    }
+    @After
+    fun deleteAllReminders() = runBlocking {
+        repository.deleteAllReminders()
+    }
 
     /**
      * As we use Koin as a Service Locator Library to develop our code, we'll also use Koin to test our code.
@@ -143,18 +136,17 @@ class RemindersActivityTest :
         Thread.sleep(500)
         onView(withId(R.id.reminderDescription)).perform(typeText(description))
         Espresso.closeSoftKeyboard()
-        Thread.sleep(500)
 
+        Thread.sleep(500)
         onView(withId(R.id.selectLocation)).perform(click())
         //Wait for the map to load
         Thread.sleep(1500)
         onView(withId(R.id.map)).perform(click())
-        Thread.sleep(1000)
+        Thread.sleep(500)
         onView(withId(R.id.map_button)).perform(click())
 
         Thread.sleep(500)
         onView(withId(R.id.saveReminder)).perform(click())
-
         onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText(R.string.err_enter_title)))
 
         Thread.sleep(1000)
@@ -163,10 +155,6 @@ class RemindersActivityTest :
 
         Thread.sleep(500)
         onView(withId(R.id.saveReminder)).perform(click())
-
-        //Result
-//        assertThat((repository.getReminders() as Result.Success).data.size, `is`(1))
-//        onView(withId(R.id.title)).check(matches(isDisplayed()))
 
         Thread.sleep(500)
         activityScenario.close()

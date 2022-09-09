@@ -3,7 +3,6 @@ package com.chgonzalez.locationreminder.savereminder
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.chgonzalez.locationreminder.MainCoroutineRule
 import com.chgonzalez.locationreminder.R
 import com.chgonzalez.locationreminder.base.NavigationCommand
 import com.chgonzalez.locationreminder.data.FakeDataSource
@@ -14,7 +13,6 @@ import com.chgonzalez.locationreminder.locationreminders.savereminder.SaveRemind
 import com.chgonzalez.locationreminder.locationreminders.savereminder.SaveReminderViewModel
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.bouncycastle.asn1.x500.style.RFC4519Style.description
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
@@ -23,7 +21,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.test.AutoCloseKoinTest
-import org.koin.test.KoinTest
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -104,6 +101,7 @@ class SaveReminderViewModelTest : AutoCloseKoinTest() {
         ))
 
         assertThat(saveViewModel.showSnackBarInt.getOrAwaitValue(), `is`(R.string.err_select_description))
+        saveViewModel.showToast
 
     }
 
