@@ -1,4 +1,4 @@
-package com.chgonzalez.locationreminder.locationreminders.reminderslist
+package com.chgonzalez.locationreminder.reminderslist
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
