@@ -33,11 +33,6 @@ class SaveReminderViewModelTest : AutoCloseKoinTest() {
 
     private lateinit var remindersRepository : FakeDataSource
 
-    // Set the main coroutines dispatcher for unit testing.
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
-
     // Executes each task synchronously using Architecture Components.
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
