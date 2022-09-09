@@ -32,12 +32,11 @@
     <string name="welcome">Welcome</string>
     <string name="err_enter_title">Please enter title</string>
     <string name="err_select_location">Please select location</string>
+    <string name="err_select_description">Please enter description</string>
 
     <!--    Geofence Status Strings-->
-    <string name="geofences_added">Clue Geofence added.</string>
     <string name="geofences_removed">Geofences removed.</string>
     <string name="geofence_entered">Geofence entered.</string>
-    <string name="geofence_over">You have found the treasure! Congratulations!</string>
 
     <string name="current_location_title">Current Location</string>
     <string name="custom_location_title">Custom Location</string>
@@ -53,4 +52,5 @@
         Unknown error: the Geofence service is not available now
     </string>
     <string name="determine_location_error">Unable to determine location.</string>
+    <string name="add_reminder_content_description">Add reminder button</string>
 </resources>
