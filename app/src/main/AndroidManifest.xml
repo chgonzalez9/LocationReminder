@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.chgonzalez.locationreminder">
+    package="com.udacity.project4">
 
     <permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".MainActivity"
+        android:name="com.udacity.project4.MainActivity"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -29,7 +29,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <activity
-            android:name=".locationreminders.RemindersActivity"
+            android:name="com.udacity.project4.locationreminders.RemindersActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,13 +38,13 @@
             </intent-filter>
         </activity>
         <receiver
-            android:name=".locationreminders.geofence.GeofenceBroadcastReceiver"
+            android:name="com.udacity.project4.locationreminders.geofence.GeofenceBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="TODO"
             tools:ignore="ExportedReceiver" />
         <service
-            android:name=".locationreminders.geofence.GeofenceTransitionsJobIntentService"
+            android:name="com.udacity.project4.locationreminders.geofence.GeofenceTransitionsJobIntentService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
