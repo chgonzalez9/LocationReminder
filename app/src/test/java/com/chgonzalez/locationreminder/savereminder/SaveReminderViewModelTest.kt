@@ -75,6 +75,15 @@ class SaveReminderViewModelTest : AutoCloseKoinTest() {
     }
 
     @Test
+    fun validateEnteredData_returnError() {
+
+        val reminder = ReminderDataItem("", "", "", 0.0, 0.0, "1")
+        remindersRepository.setReturnError(true)
+
+        assertThat(saveViewModel.validateEnteredData(reminder), `is`(false))
+    }
+
+    @Test
     fun validateEnteredData_noTitle_showToast() {
 
         saveViewModel.validateEnteredData(ReminderDataItem(
@@ -101,7 +110,6 @@ class SaveReminderViewModelTest : AutoCloseKoinTest() {
         ))
 
         assertThat(saveViewModel.showSnackBarInt.getOrAwaitValue(), `is`(R.string.err_select_description))
-        saveViewModel.showToast
 
     }
 
