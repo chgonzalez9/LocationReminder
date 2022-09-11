@@ -59,7 +59,6 @@ class RemindersLocalRepositoryTest {
     @Test
     fun saveReminder_retrievesReminder() = runBlocking {
         // GIVEN - A new reminder saved in the database.
-        val reminder = ReminderDTO("Test title", "Test description","Test Location1",0.0,0.0)
         localDataSource.saveReminder(reminder)
 
         // WHEN  - Task retrieved by ID.
@@ -73,7 +72,6 @@ class RemindersLocalRepositoryTest {
         assertThat(result.data.latitude, `is`(reminder.latitude))
         assertThat(result.data.longitude, `is`(reminder.longitude))
 
-        localDataSource.deleteAllReminders()
     }
 
     @Test

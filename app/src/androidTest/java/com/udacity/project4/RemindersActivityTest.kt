@@ -161,7 +161,7 @@ class RemindersActivityTest :
 
         onView(withText(R.string.reminder_saved)).inRoot(ToastMatcher()).check(matches(isDisplayed()))
 
-        Thread.sleep(500)
+        Thread.sleep(1000)
         activityScenario.close()
     }
 }
