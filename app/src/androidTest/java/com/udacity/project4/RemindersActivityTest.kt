@@ -106,6 +106,7 @@ class RemindersActivityTest :
                 )
             }
             single { RemindersLocalRepository(get())}
+            single<ReminderDataSource> {get<RemindersLocalRepository>()}
             single { LocalDB.createRemindersDao(appContext) }
         }
         //declare a new koin module
