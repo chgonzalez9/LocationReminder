@@ -35,7 +35,8 @@ class MainActivity : Application() {
                     get() as ReminderDataSource
                 )
             }
-            single { RemindersLocalRepository(get()) as ReminderDataSource }
+            single { RemindersLocalRepository(get())}
+            single<ReminderDataSource> {get<RemindersLocalRepository>()}
             single { LocalDB.createRemindersDao(this@MainActivity) }
         }
 

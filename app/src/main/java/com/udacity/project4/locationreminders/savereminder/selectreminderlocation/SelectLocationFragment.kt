@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
+import java.util.*
 
 
 class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
@@ -206,10 +207,19 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private fun setMapLongClick(map: GoogleMap) {
 
         map.setOnMapLongClickListener { latLng ->
+
+            val snippet = String.format(
+                Locale.getDefault(),
+                "Lat: %1$.5f, Long: %2$.5f",
+                latLng.latitude,
+                latLng.longitude
+            )
+
             _marker?.remove()
             _marker = _map.addMarker(
                 MarkerOptions()
                     .position(latLng)
+                    .snippet(snippet)
                     .title(getString(R.string.custom_location_title))
             )
         }

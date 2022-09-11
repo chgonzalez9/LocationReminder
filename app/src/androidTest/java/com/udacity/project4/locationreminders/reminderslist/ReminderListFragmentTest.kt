@@ -43,13 +43,14 @@ import com.udacity.project4.locationreminders.savereminder.SaveReminderFragmentD
 import com.udacity.project4.locationreminders.savereminder.selectreminderlocation.SelectLocationFragment
 import com.udacity.project4.locationreminders.savereminder.selectreminderlocation.SelectLocationFragmentDirections
 import com.udacity.project4.util.monitorActivity
+import org.koin.test.AutoCloseKoinTest
 import org.mockito.Mockito.verify
 
 @RunWith(AndroidJUnit4::class)
 @ExperimentalCoroutinesApi
 //UI Testing
 @MediumTest
-class ReminderListFragmentTest : KoinTest {
+class ReminderListFragmentTest : AutoCloseKoinTest() {
 
     private lateinit var repository: ReminderDataSource
     private lateinit var appContext: Application

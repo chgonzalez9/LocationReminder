@@ -25,11 +25,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LocationReminder"
         tools:targetApi="31">
+        <activity android:name=".locationreminders.ReminderDescriptionActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <activity
-            android:name="com.udacity.project4.locationreminders.RemindersActivity"
+            android:name=".locationreminders.RemindersActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +39,7 @@
             </intent-filter>
         </activity>
         <receiver
-            android:name="com.udacity.project4.locationreminders.geofence.GeofenceBroadcastReceiver"
+            android:name=".locationreminders.geofence.GeofenceBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="TODO"
