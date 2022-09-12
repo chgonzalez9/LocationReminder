@@ -31,7 +31,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
-import org.koin.test.KoinTest
 import org.koin.test.get
 import org.mockito.Mockito.mock
 import com.udacity.project4.R
@@ -88,7 +87,8 @@ class ReminderListFragmentTest : AutoCloseKoinTest() {
                     get() as ReminderDataSource
                 )
             }
-            single { RemindersLocalRepository(get()) as ReminderDataSource }
+            single { RemindersLocalRepository(get())}
+            single<ReminderDataSource> {get<RemindersLocalRepository>()}
             single { LocalDB.createRemindersDao(appContext) }
         }
         //declare a new koin module
@@ -182,7 +182,7 @@ class ReminderListFragmentTest : AutoCloseKoinTest() {
         onView(withId(R.id.saveReminder)).perform(click())
 
         //Check for showToast
-        onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText(R.string.err_enter_title)))
+        onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText(R.string.err_select_location)))
 
         activityScenario.close()
 

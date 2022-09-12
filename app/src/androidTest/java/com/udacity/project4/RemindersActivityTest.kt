@@ -1,6 +1,7 @@
 package com.udacity.project4
 
 import android.Manifest
+import android.app.Activity
 import android.app.Application
 import android.widget.Toast
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -11,6 +12,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -23,9 +25,12 @@ import com.udacity.project4.locationreminders.reminderslist.RemindersListViewMod
 import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
 import com.udacity.project4.util.DataBindingIdlingResource
 import com.udacity.project4.util.ToastMatcher
+import com.udacity.project4.util.ToastMatcher.Companion.onToast
 import com.udacity.project4.util.monitorActivity
 import com.udacity.project4.utils.EspressoIdlingResource
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -136,33 +141,42 @@ class RemindersActivityTest :
         Thread.sleep(500)
         onView(withId(R.id.addReminderFAB)).perform(click())
 
-        Thread.sleep(500)
         onView(withId(R.id.reminderDescription)).perform(typeText(description))
         Espresso.closeSoftKeyboard()
 
-        Thread.sleep(500)
+        Thread.sleep(100)
         onView(withId(R.id.selectLocation)).perform(click())
         //Wait for the map to load
         Thread.sleep(1500)
         onView(withId(R.id.map)).perform(click())
-        Thread.sleep(500)
+        Thread.sleep(200)
         onView(withId(R.id.map_button)).perform(click())
 
-        Thread.sleep(500)
+        Thread.sleep(100)
         onView(withId(R.id.saveReminder)).perform(click())
         onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText(R.string.err_enter_title)))
 
-        Thread.sleep(1000)
-        onView(withId(R.id.reminderTitle)).perform(typeText(title))
-        Espresso.closeSoftKeyboard()
-
         Thread.sleep(500)
+        onView(withId(R.id.reminderTitle)).perform(replaceText(title))
+
+        Thread.sleep(200)
         onView(withId(R.id.saveReminder)).perform(click())
 
-        onView(withText(R.string.reminder_saved)).inRoot(ToastMatcher()).check(matches(isDisplayed()))
+        onView(withText("Reminder Saved !")).inRoot(withDecorView(not(`is`(getActivity(activityScenario)?.window?.decorView)))).check(matches(isDisplayed()))
+ //       onView(withText("Reminder Saved !")).inRoot(ToastMatcher()).check(matches(isDisplayed()))
 
-        Thread.sleep(1000)
+//        onToast("Reminder Saved !").check(matches(isDisplayed()))
+
+        Thread.sleep(200)
         activityScenario.close()
+    }
+
+    private fun getActivity(activityScenario: ActivityScenario<RemindersActivity>): Activity? {
+        var activity: Activity? = null
+        activityScenario.onActivity {
+            activity = it
+        }
+        return activity
     }
 }
 
