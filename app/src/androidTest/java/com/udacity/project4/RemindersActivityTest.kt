@@ -162,8 +162,8 @@ class RemindersActivityTest :
         Thread.sleep(200)
         onView(withId(R.id.saveReminder)).perform(click())
 
-        onView(withText("Reminder Saved !")).inRoot(withDecorView(not(`is`(getActivity(activityScenario)?.window?.decorView)))).check(matches(isDisplayed()))
- //       onView(withText("Reminder Saved !")).inRoot(ToastMatcher()).check(matches(isDisplayed()))
+//        onView(withText("Reminder Saved !")).inRoot(withDecorView(not(`is`(getActivity(activityScenario)?.window?.decorView)))).check(matches(isDisplayed()))
+        onView(withText("Reminder Saved !")).inRoot(ToastMatcher()).check(matches(isDisplayed()))
 
 //        onToast("Reminder Saved !").check(matches(isDisplayed()))
 

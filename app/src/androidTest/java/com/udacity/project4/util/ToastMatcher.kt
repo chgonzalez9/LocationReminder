@@ -13,7 +13,7 @@ import org.hamcrest.TypeSafeMatcher
 /**
  * Author: http://www.qaautomated.com/2016/01/how-to-test-toast-message-using-espresso.html
  */
-class ToastMatcher(private val maxFailures: Int = DEFAULT_MAX_FAILURES) : TypeSafeMatcher<Root>() {
+class ToastMatcher : TypeSafeMatcher<Root>() {
 
     private var failures = 0
 
@@ -23,7 +23,6 @@ class ToastMatcher(private val maxFailures: Int = DEFAULT_MAX_FAILURES) : TypeSa
 
     override fun matchesSafely(item: Root): Boolean {
         val type: Int = item.windowLayoutParams.get().type
-        @Suppress("DEPRECATION")
         if (type == TYPE_TOAST) {
             val windowToken: IBinder = item.decorView.windowToken
             val appToken: IBinder = item.decorView.applicationWindowToken
@@ -31,7 +30,7 @@ class ToastMatcher(private val maxFailures: Int = DEFAULT_MAX_FAILURES) : TypeSa
                 return true
             }
         }
-        return (++failures >= maxFailures)
+        return false
     }
 
     companion object {
@@ -48,7 +47,7 @@ class ToastMatcher(private val maxFailures: Int = DEFAULT_MAX_FAILURES) : TypeSa
         ).inRoot(isToast(maxRetries))!!
 
         fun isToast(maxRetries: Int = DEFAULT_MAX_FAILURES): Matcher<Root> {
-            return ToastMatcher(maxRetries)
+            return ToastMatcher()
         }
     }
 
