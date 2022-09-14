@@ -244,11 +244,6 @@ class SaveReminderFragment : BaseFragment() {
 
         _geofenceClient.addGeofences(geofenceRequest, _geofencePendingIntent).run {
             addOnSuccessListener {
-                Snackbar.make(
-                    _binding.fragmentSaveReminder,
-                    getString(R.string.geofence_entered),
-                    Snackbar.LENGTH_SHORT
-                ).show()
                 _binding.viewModel?.saveReminder(reminder)
             }
 
