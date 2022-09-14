@@ -1,7 +1,9 @@
 package com.udacity.project4
 
 import android.Manifest
+import android.app.Activity
 import android.app.Application
+import android.service.autofill.Validators.not
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
@@ -10,6 +12,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -24,6 +27,8 @@ import com.udacity.project4.util.DataBindingIdlingResource
 import com.udacity.project4.util.monitorActivity
 import com.udacity.project4.utils.EspressoIdlingResource
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -33,14 +38,15 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
-import org.koin.test.KoinTest
+import org.koin.test.AutoCloseKoinTest
 import org.koin.test.get
+import java.util.regex.Pattern.matches
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 //END TO END test to black box test the app
 class RemindersActivityTest :
-    KoinTest {// Extended Koin Test - embed autoclose @after method to close Koin after every test
+    AutoCloseKoinTest() {// Extended Koin Test - embed autoclose @after method to close Koin after every test
 
     private lateinit var repository: ReminderDataSource
     private lateinit var appContext: Application
@@ -103,7 +109,8 @@ class RemindersActivityTest :
                     get() as ReminderDataSource
                 )
             }
-            single { RemindersLocalRepository(get()) as ReminderDataSource }
+            single { RemindersLocalRepository(get())}
+            single<ReminderDataSource> {get<RemindersLocalRepository>()}
             single { LocalDB.createRemindersDao(appContext) }
         }
         //declare a new koin module
@@ -133,31 +140,42 @@ class RemindersActivityTest :
         Thread.sleep(500)
         onView(withId(R.id.addReminderFAB)).perform(click())
 
-        Thread.sleep(500)
         onView(withId(R.id.reminderDescription)).perform(typeText(description))
         Espresso.closeSoftKeyboard()
 
-        Thread.sleep(500)
+        Thread.sleep(100)
         onView(withId(R.id.selectLocation)).perform(click())
         //Wait for the map to load
         Thread.sleep(1500)
         onView(withId(R.id.map)).perform(click())
-        Thread.sleep(500)
+        Thread.sleep(200)
         onView(withId(R.id.map_button)).perform(click())
 
-        Thread.sleep(500)
+        Thread.sleep(100)
         onView(withId(R.id.saveReminder)).perform(click())
         onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText(R.string.err_enter_title)))
 
-        Thread.sleep(1000)
+        Thread.sleep(500)
         onView(withId(R.id.reminderTitle)).perform(typeText(title))
         Espresso.closeSoftKeyboard()
 
-        Thread.sleep(500)
+        Thread.sleep(2500)
         onView(withId(R.id.saveReminder)).perform(click())
 
-        Thread.sleep(500)
+        onView(withText(R.string.reminder_saved))
+            .inRoot(withDecorView(not(`is`(getActivity(activityScenario).window.decorView))))
+            .check(matches(isDisplayed()))
+
+        Thread.sleep(200)
         activityScenario.close()
+    }
+
+    private fun getActivity(activityScenario: ActivityScenario<RemindersActivity>): Activity {
+        lateinit var activity: Activity
+        activityScenario.onActivity {
+            activity = it
+        }
+        return activity
     }
 }
 

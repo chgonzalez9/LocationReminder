@@ -31,7 +31,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
-import org.koin.test.KoinTest
 import org.koin.test.get
 import org.mockito.Mockito.mock
 import com.udacity.project4.R
@@ -43,13 +42,14 @@ import com.udacity.project4.locationreminders.savereminder.SaveReminderFragmentD
 import com.udacity.project4.locationreminders.savereminder.selectreminderlocation.SelectLocationFragment
 import com.udacity.project4.locationreminders.savereminder.selectreminderlocation.SelectLocationFragmentDirections
 import com.udacity.project4.util.monitorActivity
+import org.koin.test.AutoCloseKoinTest
 import org.mockito.Mockito.verify
 
 @RunWith(AndroidJUnit4::class)
 @ExperimentalCoroutinesApi
 //UI Testing
 @MediumTest
-class ReminderListFragmentTest : KoinTest {
+class ReminderListFragmentTest : AutoCloseKoinTest() {
 
     private lateinit var repository: ReminderDataSource
     private lateinit var appContext: Application
@@ -87,7 +87,8 @@ class ReminderListFragmentTest : KoinTest {
                     get() as ReminderDataSource
                 )
             }
-            single { RemindersLocalRepository(get()) as ReminderDataSource }
+            single { RemindersLocalRepository(get())}
+            single<ReminderDataSource> {get<RemindersLocalRepository>()}
             single { LocalDB.createRemindersDao(appContext) }
         }
         //declare a new koin module
@@ -181,7 +182,7 @@ class ReminderListFragmentTest : KoinTest {
         onView(withId(R.id.saveReminder)).perform(click())
 
         //Check for showToast
-        onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText(R.string.err_enter_title)))
+        onView(withId(com.google.android.material.R.id.snackbar_text)).check(matches(withText(R.string.err_select_location)))
 
         activityScenario.close()
 
